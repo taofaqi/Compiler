@@ -18,7 +18,7 @@ dependencies {
     implementation "com.squareup:javapoet:1.11.1"
 
     // 引入annotation，让注解处理器-处理注解
-    implementation project(path: ':annotation')
+    api 'com.github.taofaqi.Compiler:annotation:0.0.6'
 }
 
 // java控制台输出中文乱码
