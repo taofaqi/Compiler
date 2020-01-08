@@ -1,0 +1,44 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // 注册注解，并对其生成META-INF的配置信息，rc2在gradle5.0后有坑
+    // As-3.2.1 + gradle4.10.1-all + auto-service:1.0-rc2
+    // implementation 'com.google.auto.service:auto-service:1.0-rc2'
+
+    // As-3.4.1 + gradle5.1.1-all + auto-service:1.0-rc4
+    compileOnly 'com.google.auto.service:auto-service:1.0-rc4'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
+
+    // 帮助我们通过类调用的形式来生成Java代码
+    implementation "com.squareup:javapoet:1.11.1"
+
+    // 引入annotation，让注解处理器-处理注解
+    implementation project(':annotation')
+    implementation project(path: ':annotation')
+}
+
+// java控制台输出中文乱码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+//jdk编译的版本是1.7
+sourceCompatibility = "8"
+targetCompatibility = "8"
+
+
+//apply plugin: 'maven'
+//uploadArchives {
+//
+//    repositories.mavenDeployer {
+//        def mavenDirPath = file('D:\\mavendir') // 本地存放目录(自行选择)，可放在gradle.properties文件中引用
+//        repository(url: "file://${mavenDirPath.absolutePath}") // 必须双引号，单引号不会转义$
+//        pom.project {
+//            groupId "com.ttp.compiler" // 可以随意取，一般取包名
+//            artifactId "compiler" // 可以随意取，一般取库的名字
+//            version "0.0.1" // 版本号
+//        }
+//    }
+//}
